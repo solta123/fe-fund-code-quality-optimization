@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bad Web Page Example</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f0f0; }
+    h1 { color: #333; margin-top: 30px; }
+    .item { background: #fff; margin: 10px; padding: 10px; border: 1px solid #ccc; }
+    .item { font-size: 18px; } 
+    .item { color: #222; }
+    .btn { background: #007bff; color: #fff; border: none; padding: 10px 20px; cursor: pointer; }
+    .btn { border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Bad Web Page Example</h1>
+
+  <div class="item">Item 1</div>
+  <div class="item">Item 2</div>
+  <div class="item">Item 3</div>
+  <div class="item">Item 4</div>
+  <div class="item">Item 5</div>
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="800" height="600">
+
+  <button class="btn" onclick="storeData()">Store Data</button>
+
+  <script>
+    function storeData() {
+      localStorage.setItem('badKey', 'badValue');
+      localStorage.setItem('badKey2', 'badValue2');
+      sessionStorage.setItem('badSessionKey', 'badSessionValue');
+      sessionStorage.setItem('badSessionKey2', 'badSessionValue2');
+
+      document.cookie = "badCookie=badCookieValue";
+      document.cookie = "badCookie2=badCookieValue2";
+
+      alert('Data stored in localStorage, sessionStorage, and cookies!');
+    }
+
+    function getData() {
+      var a = localStorage.getItem('badKey');
+      var b = localStorage.getItem('badKey2');
+      var c = sessionStorage.getItem('badSessionKey');
+      var d = sessionStorage.getItem('badSessionKey2');
+      var e = document.cookie;
+      console.log(a, b, c, d, e);
+    }
+
+  </script>
+</body>
+</html>
