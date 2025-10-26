@@ -1,52 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Bad Web Page Example</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f0f0f0; }
-    h1 { color: #333; margin-top: 30px; }
-    .item { background: #fff; margin: 10px; padding: 10px; border: 1px solid #ccc; }
-    .item { font-size: 18px; } 
-    .item { color: #222; }
-    .btn { background: #007bff; color: #fff; border: none; padding: 10px 20px; cursor: pointer; }
-    .btn { border-radius: 4px; }
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      font-display: swap;
+      background: #f0f0f0;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 200px;
+    }
+
+    .item-list {
+      height: 255px;
+    }
+
+    .item {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      background: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+    }
+
+    input {
+      padding: 10px 20px;
+    }
+
+    .header-bar {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border-radius: 4px;
+      height: 81px;
+    }
+
+    .user-greeting {
+      display: none;
+    }
   </style>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" media="print">
 </head>
+
 <body>
-  <h1>Bad Web Page Example</h1>
+  <header class="header-bar">
+    <h1>Bad Web Page Example</h1>
+    <div class="user-greeting" id="userGreeting"></div>
+  </header>
 
-  <div class="item">Item 1</div>
-  <div class="item">Item 2</div>
-  <div class="item">Item 3</div>
-  <div class="item">Item 4</div>
-  <div class="item">Item 5</div>
+  <main>
+    <div class="item-list" id="itemList"></div>
+    <div class="user-form-container">
+      <form class="user-form" id="userForm" autocomplete="off">
+        <input type="text" id="userNameInput" placeholder="Enter your name" required>
+        <button class="btn" type="submit">Save Name</button>
+        <button class="btn clear-btn" id="clearNameBtn" style="display:none;">Clear Name</button>
+      </form>
+    </div>
+    <div>Calculated data: <span id="calculated-data">0</span></div>
+  </main>
 
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="800" height="600">
-
-  <button class="btn" onclick="storeData()">Store Data</button>
+  <section>
+    <picture>
+      <source srcset="https://i.ibb.co/RkcLK2sX/cb7.webp" type="image/webp">
+      <img src="https://i.ibb.co/RkcLK2sX/cb7.webp" alt="Optimized Example" width="800" height="808" loading="lazy"
+        id="webp" style="max-width:100%;height:auto;">
+    </picture>
+  </section>
 
   <script>
-    function storeData() {
-      localStorage.setItem('badKey', 'badValue');
-      localStorage.setItem('badKey2', 'badValue2');
-      sessionStorage.setItem('badSessionKey', 'badSessionValue');
-      sessionStorage.setItem('badSessionKey2', 'badSessionValue2');
+    const itemList = document.getElementById('itemList');
+    Array.from({ length: 5 }).forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = `Item ${index + 1}`;
+      itemList.append(div);
+    });
 
-      document.cookie = "badCookie=badCookieValue";
-      document.cookie = "badCookie2=badCookieValue2";
-
-      alert('Data stored in localStorage, sessionStorage, and cookies!');
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered:', reg.scope))
+          .catch(err => console.warn('Service Worker registration failed:', err));
+      });
     }
-
-    function getData() {
-      var a = localStorage.getItem('badKey');
-      var b = localStorage.getItem('badKey2');
-      var c = sessionStorage.getItem('badSessionKey');
-      var d = sessionStorage.getItem('badSessionKey2');
-      var e = document.cookie;
-      console.log(a, b, c, d, e);
-    }
-
   </script>
+
+  <script src="worker-init.js" defer></script>
+  <script src="form-handler.js" defer></script>
+  <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" media="print">
 </body>
+
 </html>
