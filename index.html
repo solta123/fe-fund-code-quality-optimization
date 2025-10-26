@@ -6,14 +6,22 @@
     body { font-family: Arial, sans-serif; background: #f0f0f0; }
     h1 { color: #333; margin-top: 30px; }
     .item { background: #fff; margin: 10px; padding: 10px; border: 1px solid #ccc; }
-    .item { font-size: 18px; } 
+    .item { font-size: 18px; }
     .item { color: #222; }
+    .item { border-radius: 4px; }
+    .item:hover { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); }
     .btn { background: #007bff; color: #fff; border: none; padding: 10px 20px; cursor: pointer; }
     .btn { border-radius: 4px; }
+    .header-bar { display: flex; align-items: center; justify-content: space-between; }
+    .user-greeting { display: none; }
   </style>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" media="print">
 </head>
 <body>
-  <h1>Bad Web Page Example</h1>
+  <div class="header-bar">
+    <h1>Bad Web Page Example</h1>
+    <div class="user-greeting" id="userGreeting"></div>
+  </div>
 
   <div class="item">Item 1</div>
   <div class="item">Item 2</div>
@@ -21,32 +29,57 @@
   <div class="item">Item 4</div>
   <div class="item">Item 5</div>
 
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="800" height="600">
+  <img src="https://cdn2.thecatapi.com/images/cb7.jpg">
 
-  <button class="btn" onclick="storeData()">Store Data</button>
+  <form id="userForm" autocomplete="off">
+    <input type="text" id="userNameInput" placeholder="Enter your name" required>
+    <button class="btn" type="submit">Save Name</button>
+    <button class="btn" id="clearNameBtn" style="display:none;">Clear Name</button>
+  </form>
+
+  <div>Calculated data: <span id="calculated-data">0</span></div>
 
   <script>
-    function storeData() {
-      localStorage.setItem('badKey', 'badValue');
-      localStorage.setItem('badKey2', 'badValue2');
-      sessionStorage.setItem('badSessionKey', 'badSessionValue');
-      sessionStorage.setItem('badSessionKey2', 'badSessionValue2');
-
-      document.cookie = "badCookie=badCookieValue";
-      document.cookie = "badCookie2=badCookieValue2";
-
-      alert('Data stored in localStorage, sessionStorage, and cookies!');
+    function hideGreeting() {
+      document.getElementById('userGreeting').textContent = '';
+      document.getElementById('clearNameBtn').style.display = 'none';
     }
 
-    function getData() {
-      var a = localStorage.getItem('badKey');
-      var b = localStorage.getItem('badKey2');
-      var c = sessionStorage.getItem('badSessionKey');
-      var d = sessionStorage.getItem('badSessionKey2');
-      var e = document.cookie;
-      console.log(a, b, c, d, e);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var storedName = localStorage.getItem('userName');
+      if (storedName) {
+        document.getElementById('userGreeting').textContent = 'Hello, ' + storedName + '!';
+        document.getElementById('userGreeting').style.display = 'inline-block';
+        document.getElementById('clearNameBtn').style.display = 'inline-block';
+        document.getElementById('userNameInput').value = storedName;
+        document.getElementById('clearNameBtn').style.display = 'inline-block';
+        document.getElementById('userNameInput').value = localStorage.getItem('userName');
+      }
+    });
 
+    document.getElementById('userForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('userNameInput').value.trim();
+      if (name) {
+        localStorage.setItem('userName', name);
+        document.getElementById('userGreeting').textContent = 'Hello, ' + name + '!';
+        document.getElementById('userGreeting').style.display = 'inline-block';
+        document.getElementById('clearNameBtn').style.display = 'inline-block';
+      }
+    });
+
+    document.getElementById('clearNameBtn').addEventListener('click', function() {
+      localStorage.removeItem('userName');
+      document.getElementById('userNameInput').value = '';
+      document.getElementById('userGreeting').textContent = '';
+      document.getElementById('clearNameBtn').style.display = 'none';
+    });
+
+    let sum = 0;
+    for (let i = 0; i < 500000000; i++) {
+      sum += Math.sqrt(i);
+    }
+    document.getElementById('calculated-data').innerText = sum;
   </script>
 </body>
 </html>
