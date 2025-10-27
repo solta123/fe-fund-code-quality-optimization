@@ -21,23 +21,9 @@ self.addEventListener('fetch', event => {
         if (response) {
           return response;
         }
-        if (
-          event.request.url.startsWith('https://fonts.googleapis.com/') ||
-          event.request.url.startsWith('https://fonts.gstatic.com/')
-        ) {
-          return fetch(event.request).then(networkResponse => {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseClone);
-            });
-            return networkResponse;
-          });
-        }
         return fetch(event.request)
-          .catch(() => {
-            if (event.request.mode === 'navigate') {
-              return caches.match('/');
-            }
+          .catch((error) => {
+            console.error(error)
           });
       })
   );
